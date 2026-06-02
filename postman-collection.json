@@ -1,21 +1,580 @@
 {
   "info": {
-    "name": "订单API测试",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "name": "电商API - 测试用例",
+    "description": "由 YAML 文件自动生成的 Postman Collection\n接口来源: E:\\api_test\\login1.yaml\n生成时间: 自动生成",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "auto-generator"
   },
   "item": [
     {
-      "name": "获取订单详情",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "http://t.weather.sojson.com/api/weather/city/101010100",
-          "protocol": "http",
-          "host": ["t.weather.sojson.com"],
-          "path": ["api", "weather", "city", "101010100"]
+      "name": "用户注册 - 正常流程（正常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 正常用例 - 用户注册",
+              "pm.test(\"状态码为200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"响应时间小于5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "",
+              "pm.test(\"响应包含字段 'user_id'\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('user_id');",
+              "    pm.expect(jsonData['user_id']).to.not.be.empty;",
+              "});",
+              "",
+              "pm.test(\"响应包含字段 'message'\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "    pm.expect(jsonData['message']).to.not.be.empty;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
-      },
-      "response": []
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"zhangsan\",\n  \"password\": 123456,\n  \"phone\": 13800138000\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/register",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "register"
+          ],
+          "protocol": "https",
+          "query": []
+        }
+      }
+    },
+    {
+      "name": "用户注册 - 必填项'username'为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户注册 - 必填项'username'为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"\",\n  \"password\": 123456,\n  \"phone\": 13800138000\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/register",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "register"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户注册 - 必填项'password'为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户注册 - 必填项'password'为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"zhangsan\",\n  \"password\": \"\",\n  \"phone\": 13800138000\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/register",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "register"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户注册 - 必填项'phone'为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户注册 - 必填项'phone'为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"zhangsan\",\n  \"password\": 123456,\n  \"phone\": \"\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/register",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "register"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户注册 - 所有必填项为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户注册 - 所有必填项为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"\",\n  \"password\": \"\",\n  \"phone\": \"\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/register",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "register"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户注册 - 请求体为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户注册 - 请求体为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/register",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "register"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户登录 - 正常流程（正常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 正常用例 - 用户登录",
+              "pm.test(\"状态码为200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"响应时间小于5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "",
+              "pm.test(\"响应包含字段 'token'\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('token');",
+              "    pm.expect(jsonData['token']).to.not.be.empty;",
+              "});",
+              "",
+              "pm.test(\"响应包含字段 'user_id'\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('user_id');",
+              "    pm.expect(jsonData['user_id']).to.not.be.empty;",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"test_string\",\n  \"password\": \"test_string\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/login",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "login"
+          ],
+          "protocol": "https",
+          "query": []
+        }
+      }
+    },
+    {
+      "name": "用户登录 - 必填项'username'为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户登录 - 必填项'username'为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"\",\n  \"password\": \"test_string\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/login",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "login"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户登录 - 必填项'password'为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户登录 - 必填项'password'为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"test_string\",\n  \"password\": \"\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/login",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "login"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户登录 - 所有必填项为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户登录 - 所有必填项为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"\",\n  \"password\": \"\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/login",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "login"
+          ],
+          "protocol": "https"
+        }
+      }
+    },
+    {
+      "name": "用户登录 - 请求体为空提交校验（异常用例）",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 异常用例 - 用户登录 - 请求体为空",
+              "pm.test(\"状态码不为200（期望4xx错误）\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([400, 422, 500]);",
+              "});",
+              "",
+              "pm.test(\"响应中包含错误提示信息\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('message');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "https://api.example.com/v1/user/login",
+          "host": [
+            "api",
+            "example",
+            "com"
+          ],
+          "path": [
+            "user",
+            "login"
+          ],
+          "protocol": "https"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.example.com/v1",
+      "type": "string"
     }
   ]
 }
