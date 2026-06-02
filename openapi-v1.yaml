@@ -1,19 +1,74 @@
 openapi: 3.0.0
 info:
-  title: 订单API
+  title: 电商API
   version: 1.0.0
 servers:
   - url: https://api.example.com/v1
 paths:
-  /orders/{order_id}:
+  /user/register:
+    post:
+      summary: 用户注册
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password, phone]
+              properties:
+                username:
+                  type: string
+                  example: zhangsan
+                password:
+                  type: string
+                  example: 123456
+                phone:
+                  type: string
+                  example: 13800138000
+      responses:
+        '200':
+          description: 注册成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  message:
+                    type: string
+  /user/login:
+    post:
+      summary: 用户登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  user_id:
+                    type: integer
+  /user/profile:
     get:
-      summary: 获取订单详情
-      parameters:
-        - name: order_id
-          in: path
-          required: true
-          schema:
-            type: string
+      summary: 获取用户资料
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: 成功
@@ -22,12 +77,79 @@ paths:
               schema:
                 type: object
                 properties:
+                  user_id:
+                    type: integer
+                  username:
+                    type: string
+                  phone:
+                    type: string
+                  email:
+                    type: string
+  /orders:
+    get:
+      summary: 获取订单列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  list:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        order_id:
+                          type: string
+                        amount:
+                          type: number
+                        status:
+                          type: string
+  /orders/create:
+    post:
+      summary: 创建订单
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id, quantity]
+              properties:
+                product_id:
+                  type: string
+                quantity:
+                  type: integer
+                remark:
+                  type: string
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
                   order_id:
                     type: string
-                    example: "123"
                   status:
-                    type: integer
-                    example: 1
-                  amount:
-                    type: number
-                    example: 99.5
+                    type: string
