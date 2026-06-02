@@ -10,9 +10,9 @@
         "method": "GET",
         "url": {
           "raw": "http://t.weather.sojson.com/api/weather/city/101010100",
-          "protocol": "https",
-          "host": ["api", "example", "com"],
-          "path": ["v1", "orders", "123"]
+          "protocol": "http",
+          "host": ["t.weather.sojson.com"],
+          "path": ["api", "weather", "city", "101010100"]
         }
       },
       "response": []
